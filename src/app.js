@@ -54,12 +54,14 @@ const renderEvents = () => {
     const button = document.createElement("button");
     button.setAttribute(
       "class",
-      "btn btn-danger btn-sm position-absolute top-100 start-50 translate-middle"
+      "btn btn-danger btn-sm position-absolute top-100 start-50 translate-middle del-btn"
     );
     button.setAttribute("id", event.id);
     button.type = "button";
     button.innerHTML = 'Delete';
-
+    button.addEventListener("click", (e) => {
+      delEvents(e.target.id);
+    })
 
     cardBody.append(cardTitle);
     cardBody.append(cardDate);
@@ -80,6 +82,9 @@ const getEvents = async () => {
     const response = await fetch(API_URL);
     const json = await response.json();
     state.events = json.data;
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
   } catch (error) {
     console.error(error);
   }
@@ -101,6 +106,20 @@ const addEvent = async (event) => {
     console.error(error);
   }
 }
+
+const delEvents = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+    const json = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+  render();
+}
+
+
 // === Render ====
 const render = async () => {
    await getEvents();
@@ -123,6 +142,7 @@ const party = {
   form.reset();
   render();
 })
+
 
 // // === Main ===
 render();
