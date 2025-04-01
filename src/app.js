@@ -20,13 +20,6 @@ const API_URL = 'https://fsa-crud-2aa9294fe819.herokuapp.com/api/2109-CPU-RM-WEB
 
 
 //Functions
-const deleteEvent = (id) => {
-  console.log(`Delete ${id}`);
-}
-function setDelete() {
-  console.log(this.id);
-}
-
 const renderEvents = () => {
   const eventList = document.querySelector("#eventList");
   const options = {
@@ -79,7 +72,6 @@ const renderEvents = () => {
 
 
 // APIs 
-
 const getEvents = async () => {
   try {
     const response = await fetch(API_URL);
@@ -90,21 +82,43 @@ const getEvents = async () => {
   }
 }
 
+const addEvent = async (event) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(event),
+    });
+
+    const json = await response.json();
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+// === Render ====
 const render = async () => {
    await getEvents();
   renderEvents();
 }
 
-
 // //Event Listeners
-const form = document.querySelector("addEvent");
+const form = document.getElementById("addEvent");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const eventData = {
-    name: form.partyName.value,
-    description:form.partyDescription.value,
-  }
-  console.log(eventData);
+const data = new FormData(event.target);
+const party = {
+  name: data.get("partyName"),
+  description: data.get("partyDescription"),
+  date: new Date(data.get("partyDate")),
+  location: data.get("partyLocation"),
+};
+ 
+  await addEvent(party);
+  form.reset();
+  render();
 })
 
 // // === Main ===

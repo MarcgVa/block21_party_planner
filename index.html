@@ -13,9 +13,9 @@
 </head>
 <body>
   <header class="header">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
+    <nav class="navbar navbar-expand-lg mb-5 bg-body-tertiary bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Party Planner</a>
+        <a class="navbar-brand fw-bold fs-3" href="#">Party Planner</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,13 +32,13 @@
       </div>
     </nav>
   </header>
-    <section class="party-list">
-    <div id="eventList">
+    <section class=" d-flex flex-xl-column justify-content-evenly ">
+    <div id="eventList" class="d-flex mb-10 justify-content-center ">
       <!-- event cards created in js  -->  
     </div>
     <input id="setDelete" style="visibility: hidden;"/>
   </section>
-  <section class="container p-4 intake-form text-light fw-semibold col-4 bg-secondary ">
+  <section class="container justify-content-center mb-5 p-4 intake-form text-light fw-semibold col-4 bg-secondary ">
     <form id="addEvent">
       <div class="mb-3">
         <label for="partyName" class="form-label">Party Name:</label>
