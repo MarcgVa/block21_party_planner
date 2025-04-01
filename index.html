@@ -13,7 +13,7 @@
 </head>
 <body>
   <header class="header">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary bd-dary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Party Planner</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,8 +34,30 @@
   </header>
     <section class="party-list">
     <div id="eventList">
-      <!-- event cards created in js  -->
+      <!-- event cards created in js  -->  
     </div>
-  </section>  
+    <input id="setDelete" style="visibility: hidden;"/>
+  </section>
+  <section class="container p-4 intake-form text-light fw-semibold col-4 bg-secondary ">
+    <form id="addEvent">
+      <div class="mb-3">
+        <label for="partyName" class="form-label">Party Name:</label>
+        <input type="text" class="form-control" name="partyName" id="partyName" aria-describedby="">
+      </div>
+      <div class="mb-3">
+        <label for="partyDescription" class="form-label">Description:</label>
+        <input type="text" class="form-control" name="partyDescription" id="partyDescription">
+      </div>
+      <div class="mb-3">
+        <label for="partyDate" class="form-label">Date:</label>
+        <input type="date" class="form-control" name="partyDate" id="partyDate">
+      </div>
+      <div class="mb-3">
+        <label for="partyLocation" class="form-label">Location:</label>
+        <input type="text" class="form-control" name="partyLocation" id="partyLocation">
+      </div>
+      <button type="submit" class="btn btn-primary m-3">Submit</button>
+    </form>
+  </section>
 </body>
 </html>

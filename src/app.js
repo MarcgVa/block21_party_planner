@@ -10,85 +10,102 @@
 
 
 const state = {
-  'url': 'https://fsa-crud-2aa9294fe819.herokuapp.com/api/2109-CPU-RM-WEB-PT/',
+  events: [],
 }
-const targetList = document.getElementById("eventList");
-const form = document.getElementById("add-party");
+
+const API_URL = 'https://fsa-crud-2aa9294fe819.herokuapp.com/api/2109-CPU-RM-WEB-PT/events'
+
+
 
 
 
 //Functions
+const deleteEvent = (id) => {
+  console.log(`Delete ${id}`);
+}
+function setDelete() {
+  console.log(this.id);
+}
 
-const renderEventList = (eventList) => {
-  console.log(eventList);
-  const listOfEvents = eventList.forEach((e) => {
+const renderEvents = () => {
+  const eventList = document.querySelector("#eventList");
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  }
+
+  //check for events
+  if (!state.events.length) {
+    eventList.innerHTML = "No Events.";
+    return;
+  }
+  
+  const eventCards = state.events.map((event) => {
+    const date = new Date(event.date).toLocaleDateString(undefined, options);
     const card = document.createElement("div");
-    card.setAttribute("class", "card");
-    card.style = "width: 18rem;";
+    card.setAttribute("class", "card bg-secondary m-4 p-2");
+    card.style = "width: 18rem";
     const cardBody = document.createElement("div");
-    cardBody.setAttribute("class","card-body")
     const cardTitle = document.createElement("h5");
-    cardTitle.setAttribute("class", "card-title");
-    cardTitle.innerHTML = e.name;
+    cardTitle.setAttribute("class", "card-title fs-2 fw-bold text-warning");
+    cardTitle.innerHTML = `${event.id} - ${event.name}`;
+    const cardDate = document.createElement("h6");
+    cardDate.setAttribute("class", "card-title text-center fs-5 text-light");
+    cardDate.innerHTML = date;
     const cardText = document.createElement("p");
-    cardText.setAttribute("class", "card-text")
-    cardText.innerHTML = `${e.description} | ${e.Location} | ${e.Date}}`
-    const btnDelete = document.createElement("a");
-    btnDelete.setAttribute("class", "btn btn-primary")
-    btnDelete.innerText = "Delete";
+    cardText.setAttribute("class", "card-text text-center fs-5 text-light");
+    cardText.innerHTML = event.description;
+    const button = document.createElement("button");
+    button.setAttribute("class", "btn btn-danger btn-sm");
+    button.setAttribute("id", event.id);
+    //button.setAttribute("onclick", "setDelete();");
+    button.type = "button";
+    button.innerHTML = 'Delete';
 
-    //build card
+
     cardBody.append(cardTitle);
+    cardBody.append(cardDate);
     cardBody.append(cardText);
-    cardBody.append(btnDelete);
-    card.append(cardBody)
-    
-    targetList.append(card);
+    cardBody.append(button);
+    card.append(cardBody);
+
+    return card;
   });
+
+  eventList.replaceChildren(...eventCards);
 }
 
 
 // APIs 
 
-const getParties = async () => {
+const getEvents = async () => {
   try {
-    const response = await fetch(`${state.url}/events`);
+    const response = await fetch(API_URL);
     const json = await response.json();
-    renderEventList(json.data);
-
+    state.events = json.data;
   } catch (error) {
     console.error(error);
   }
 }
 
-const addParty = async (party) => {
-  try {
-    
-  } catch (error) {
-    console.error(error);
-  }
-
+const render = async () => {
+   await getEvents();
+  renderEvents();
 }
 
 
-//Event Listeners
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const data = new FormData(e.target);
-  console.log(data.get("partyName"));
-  const partyInfo = [];
-  data.forEach((e) => {
-    let party = {
-      "name": data.get("partyName"),
-      "description": data.get("partyDescription"),
-      "date": data.get("partyDate"),
-      "location": data.get("partyLocation"),
-    };
-
-    partyInfo.push(party)
-  })
+// //Event Listeners
+const form = document.querySelector("addEvent");
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const eventData = {
+    name: form.partyName.value,
+    description:form.partyDescription.value,
+  }
+  console.log(eventData);
 })
 
-
-getParties()
+// // === Main ===
+render();
