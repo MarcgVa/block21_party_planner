@@ -41,6 +41,7 @@ const renderEvents = () => {
     card.setAttribute("class", "card bg-secondary m-4 p-2");
     card.style = "width: 18rem";
     const cardBody = document.createElement("div");
+    cardBody.setAttribute("class","bg-secondary mb-3 p-4")
     const cardTitle = document.createElement("h5");
     cardTitle.setAttribute("class", "card-title fs-2 fw-bold text-warning");
     cardTitle.innerHTML = `${event.id} - ${event.name}`;
@@ -51,9 +52,11 @@ const renderEvents = () => {
     cardText.setAttribute("class", "card-text text-center fs-5 text-light");
     cardText.innerHTML = event.description;
     const button = document.createElement("button");
-    button.setAttribute("class", "btn btn-danger btn-sm");
+    button.setAttribute(
+      "class",
+      "btn btn-danger btn-sm position-absolute top-100 start-50 translate-middle"
+    );
     button.setAttribute("id", event.id);
-    //button.setAttribute("onclick", "setDelete();");
     button.type = "button";
     button.innerHTML = 'Delete';
 
